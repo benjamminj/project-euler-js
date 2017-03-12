@@ -18,4 +18,5 @@ function calcSumOfMults (range, nums) {
   return sum
 }
 
-console.log(calcSumOfMults(10))
+// Solution: 233168
+console.log(calcSumOfMults(1000))
