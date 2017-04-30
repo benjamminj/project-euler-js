@@ -46,13 +46,12 @@ const findPythagTripLoop = sum => {
     return halfRem % 1 === 0 ? halfRem - 1 : Math.floor(halfRem)
   }
   const getCValue = (a, b) => sum - a - b
+
   let b = getBValue(a)
   let c = getCValue(a, b)
 
-  console.log(a, b, c)
   let triplet = null
   while (!triplet) {
-    console.log('in loop')
     if (isPythagTrip(a, b, c)) {
       triplet = { a, b, c }
     } else if (a < b - 1) {
@@ -64,6 +63,7 @@ const findPythagTripLoop = sum => {
       c = getCValue(a, b)
     }
   }
+
   return triplet
 }
 
