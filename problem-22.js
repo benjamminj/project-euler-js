@@ -14,67 +14,91 @@ const path = require('path')
 const { isArray } = Array
 
 // Get an array of all the names
-const names = fs.readFileSync(path.join(__dirname, 'files/names.txt'), 'utf8').replace(/"|\n/g, '').split(',')
-const sortByCharCode = (level) => (a, b) => a.charCodeAt(level) - b.charCodeAt(level)
-// PASS THROUGH ARRAY MULTIPLE TIMES
-//
-//
-// 1. [aaron, [blake, ben], [chelsea, chrissy, courtney, charissa], [jonah, jon], xamarin]
-// 2. [arron, ben, blake, [chelsea, chrissy, charissa], courtney, [jonah, jon], xamarin]
-// 3. [aaron, ben, black, charissa, chelsea, chrissy, courntey, [jonah, jon], xamarin]
+const NAMES = fs.readFileSync(path.join(__dirname, 'files/names.txt'), 'utf8').replace(/"|\n/g, '').split(',')
+const TEST_NAMES = ['BEN', 'BRODY', 'BRANDON', 'CARLY', 'KYLE', 'RON', 'RALPH']
 
+const sortByLevel = (names, level = 0) => names.sort((a, b) => a.charCodeAt(level) - b.charCodeAt(level))
+
+const DUPLICATES = []
+count = 0
 const groupNames = (names, level = 0) => {
-  let num = 0
-  const grouped = names.reduce((acc, name) => {
-    const prevIndex = acc.length - 1
-    const prev = acc[prevIndex]
-    const prevIsArray = isArray(prev)
+  return names.reduce((acc, name) => {
+    const letter = name[level]
 
-    if (prev) {
-      if (prevIsArray && name.charCodeAt(level) === prev[0].charCodeAt(level)) {
-        acc[prevIndex].push(name)
-        return acc
-      }
+    // what happens if rem = '' and there are names in acc[letter]? will it overwrite?
+    const rem = name.slice(1)
+    const val = rem ? (acc[letter] || []).concat(name.slice(1)) : null
+    acc[letter] = val
 
-      if (!prevIsArray && name.charCodeAt(level) === prev.charCodeAt(level)) {
-        num++
-        acc[prevIndex] = [prev, name]
-        return acc
-      }
+
+    if (acc[letter] && acc[letter].includes(name)) {
+      console.log('------------------- DUPLICATE', names, name);
+      count++
+    }
+    return acc
+  }, {})
+}
+
+const groupNested = (namesObj) => {
+  const groups = Object.entries(namesObj)
+
+  // recursively deconstruct names into a "syntax tree" of sorts
+  groups.forEach(letterGroup => {
+    const head = letterGroup[0]
+    const tail = letterGroup[1]
+
+    if (namesObj[head]) {
+      namesObj[head] = groupNested(groupNames(namesObj[head]))
+    }
+  })
+
+  return namesObj
+}
+
+const flattenNested = (namesObj) => {
+  const groups = Object.entries(namesObj)
+  const sorted = groups.sort((a, b) => a[0].charCodeAt(0) - b[0].charCodeAt(0))
+
+  // console.log('---', sorted)
+  return sorted.reduce((acc, group) => {
+    const head = group[0]
+    const tail = group[1]
+    // console.log('------------------- ', head, tail);
+    let val
+    if (tail) {
+      const nested = flattenNested(tail)
+      val = nested.map(str => `${head}${str}`)
+    } else {
+      val = head
     }
 
-    return acc.concat([name])
+    // console.log('- ', [...val]);
+    return acc.concat([...val])
   }, [])
-
-  return { num, names: grouped }
 }
 
-const sortNames = (names, level = 0) => {
-  let nextLevel = level + 1
-  let i = 0
-  let nested = 0
-
-  do {
-    while (i < names.length) {
-      // Sort any sub arrays by the current level
-      if (isArray(names[i])) {
-        const sorted = names[i].sort(sortByCharCode(nextLevel))
-        const grouped = groupNames(sorted, nextLevel)
-
-        nested += grouped.num
-        names = names.slice(0, i).concat([...grouped.names]).concat(names.slice(i + 1))
-      }
-
-      // if (i === names.length) {
-      //   console.log('in here')
-      // }
-
-      i++
-    }
-  } while (nested > 0)
-
-  return { names, nested }
+const transformToNumbers = (namesArr) => {
+  return namesArr.map((name, i) => {
+    // console.log('------------------- NAME', name.split(''));
+    const nameValues = name.split('').reduce((sum, letter) => {
+      // console.log('------------------- SUM ', sum);
+      // console.log('------------------- LETTER ', letter, letter.charCodeAt(0));
+      // console.log('------------------- SUM', sum);
+      return sum + (letter.charCodeAt(0) - 65)
+    }, 0)
+    // console.log('------------------- ', nameValues);
+    return nameValues * (i + 1)
+  })
 }
 
-const grouped = groupNames(names.sort(sortByCharCode(0))).names
-console.log(sortNames(grouped.slice(0, 1)))
+const getListTotal = (list) => list.reduce((sum, num) => {
+  // console.log('--------------- SUM', sum)
+  return sum + num
+}, 0)
+
+const namesObj = groupNested(groupNames(NAMES))
+const sortedNames = flattenNested(namesObj)
+const nameValues = transformToNumbers(sortedNames)
+console.log('------------------- COUNT', count);
+// console.log('------------------- ', sortedNames.length === NAMES.length);
+// console.log('------------------- ', NAMES.filter(name => name.charAt(0) === 'A').sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0)));
