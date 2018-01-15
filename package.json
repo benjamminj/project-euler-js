@@ -1,0 +1,23 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "Project Euler Problems",
+  "main": "problem-1.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github-PERSONAL:benjaminj6/project-euler-js.git"
+  },
+  "author": "Benjamin Johnson <benjamin.d.johnson@icloud.com>",
+  "license": "ISC",
+  "devDependencies": {},
+  "dependencies": {
+    "jest": "^22.1.1"
+  }
+}
