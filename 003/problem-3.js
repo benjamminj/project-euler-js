@@ -4,9 +4,7 @@
  * What is the largest prime factor of the number 600851475143?
  */
 
-const number = 600851475143
-
-function largestPrimeFactor (num) {
+const largestPrimeFactor = (num) => {
   const factors = []
   let divisor = 2
 
@@ -24,4 +22,4 @@ function largestPrimeFactor (num) {
   return factors[factors.length - 1]
 }
 
-console.log(largestPrimeFactor(number))
+module.exports = largestPrimeFactor

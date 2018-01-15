@@ -5,9 +5,9 @@
  * get 3, 5, 6 and 9. The sum of these multiples is 23.
  *
  * Find the sum of all the multiples of 3 or 5 below 1000.
-**/
+ **/
 
-function calcSumOfMults (range, nums) {
+const calcSumOfMults = range => {
   let sum = 0
   for (let i = 0; i < range; i++) {
     if (i % 3 === 0 || i % 5 === 0) {
@@ -18,5 +18,4 @@ function calcSumOfMults (range, nums) {
   return sum
 }
 
-// Solution: 233168
-console.log(calcSumOfMults(1000))
+module.exports = calcSumOfMults

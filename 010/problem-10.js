@@ -27,5 +27,4 @@ const sumOfPrimes = limit => {
   return sum
 }
 
-// ✔ Solved: 142913828922
-console.log(sumOfPrimes(2e6))
+module.exports = sumOfPrimes

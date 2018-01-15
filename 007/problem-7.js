@@ -2,10 +2,10 @@
  * By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see
  * that the 6th prime is 13.
  *
- * What is the 10 001st prime number?
+ * What is the 10,001st prime number?
  */
 
-function getNthPrime (n) {
+const getNthPrime = (n) => {
   // start on the second prime so can increment by odd nums
   let i = 2
   let prime = 3
@@ -23,7 +23,7 @@ function getNthPrime (n) {
   return prime
 }
 
-function isPrime (num) {
+const isPrime = (num) => {
   let divisor = Math.floor(Math.sqrt(num))
 
   for (divisor; divisor > 1; divisor--) {
@@ -35,5 +35,4 @@ function isPrime (num) {
   return true
 }
 
-// ✓ Solved: 104743
-console.log(getNthPrime(10001))
+module.exports = getNthPrime

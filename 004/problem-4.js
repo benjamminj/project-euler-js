@@ -28,5 +28,6 @@ function getPalin () {
   }
 }
 
-// ✔ Solved: prints 906609
-console.log(getPalin())
+module.exports = getPalin
+
+// console.log(getPalin())

@@ -8,7 +8,7 @@
  * exceed four million, find the sum of the even-valued terms
  */
 
-function fibEven (num1, num2, sum) {
+const fibEven = (num1 = 1, num2 = 2, sum = 0) => {
   if (num2 >= 4000000) {
     return sum
   }
@@ -22,5 +22,4 @@ function fibEven (num1, num2, sum) {
   return fibEven(num2, nextNum, sum)
 }
 
-// Solved, prints 4613732
-console.log(fibEven(1, 2, 0))
+module.exports = fibEven

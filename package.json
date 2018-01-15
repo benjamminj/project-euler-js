@@ -4,7 +4,11 @@
   "description": "Project Euler Problems",
   "main": "problem-1.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
   },
   "repository": {
     "type": "git",
@@ -12,7 +16,8 @@
   },
   "author": "Benjamin Johnson <benjamin.d.johnson@icloud.com>",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "jest": "^22.1.1"
   }
 }

@@ -12,7 +12,7 @@
  * natural numbers and the square of the sum.
  */
 
-function sumSquareDifference (max) {
+const sumSquareDifference = max => {
   let sum = 0
   let squaresSum = 0
 
@@ -24,5 +24,4 @@ function sumSquareDifference (max) {
   return (sum **= 2) - squaresSum
 }
 
-// ✓ Solved: 25164150
-console.log(sumSquareDifference(100))
+module.exports = sumSquareDifference
