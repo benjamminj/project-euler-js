@@ -31,5 +31,6 @@ const getSumOfDigits = numArr =>
     num.toString().split('').reduce(getSum, 0)
   ).reduce(getSum, 0)
 
-// ✔ Solved: 648
-console.log(getSumOfDigits(factorial(100)))
+const getSumOfFactorialDigits = num => getSumOfDigits(factorial(num))
+
+module.exports = getSumOfFactorialDigits

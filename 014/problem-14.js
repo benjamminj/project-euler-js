@@ -47,5 +47,4 @@ const getHighestChain = highestStart => {
   return highestNum
 }
 
-// ✔ Solved: 837799
-console.log(getHighestChain(1e6))
+module.exports = getHighestChain

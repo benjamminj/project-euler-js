@@ -5,7 +5,6 @@ const factorial = num => {
   let product = 1
   for (let i = num; i > 0; i--) {
     product *= i
-    console.log(i, product)
   }
   return product
 }
@@ -18,5 +17,4 @@ const getNumPaths = size => {
   return Math.floor(factorial(numSteps) / (factorial(size) ** 2))
 }
 
-// ✔ Solved: 137846528820
-console.log(getNumPaths(20))
+module.exports = getNumPaths

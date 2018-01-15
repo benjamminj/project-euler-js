@@ -1,13 +1,8 @@
 // Problem 22 -- Name Scores
 // https://projecteuler.net/problem=22
-const fs = require('fs')
-const path = require('path')
 const { isArray } = Array
 
-// Get an array of all the names
-const NAMES = fs.readFileSync(path.join(__dirname, 'files/names.txt'), 'utf8').replace(/"|\n/g, '').split(',')
-
-function transformNames (names) {
+function getSumOfNameScores (names) {
   return names.sort()
     .map(transformNameToValue)
     .reduce((sum, nameValue) => sum + nameValue, 0)
@@ -21,6 +16,8 @@ function transformNameToValue (name, i) {
   return nameValue * (i + 1)
 }
 
+module.exports = getSumOfNameScores
+
 // ✔ Solved: 871198282
-console.log(transformNames(NAMES))
+// console.log(transformNames(NAMES))
 

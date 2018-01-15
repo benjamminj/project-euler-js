@@ -49,5 +49,4 @@ const findTriangle = numDiv => {
   return sum
 }
 
-// ✔ Solved: 76576500
-console.log(findTriangle(5e2))
+module.exports = findTriangle

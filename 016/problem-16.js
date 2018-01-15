@@ -8,9 +8,9 @@ const multiplyArr = (arr, amt) => {
     const groupLimit = 1e12
     const product = el * amt
 
-    if (product > (groupLimit - 1)) {
+    if (product > groupLimit - 1) {
       // Carry the 1 over into the next group of millions
-      carriedAmts.push((i + 1))
+      carriedAmts.push(i + 1)
       return product - groupLimit
     }
 
@@ -43,6 +43,7 @@ const sumOfDigits = exponentArr => {
   return sum.reduce((acc, partialSum) => acc + partialSum)
 }
 
-// ✔ Solved: 1366
-console.log(sumOfDigits(largeExponent(2, 1000)))
+const getPowerDigitSum = (rootNum, exponent) =>
+  sumOfDigits(largeExponent(rootNum, exponent))
 
+module.exports = getPowerDigitSum

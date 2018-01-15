@@ -50,9 +50,10 @@ const lettersUnderOneHundred = () => {
   const sumOfLettersUnderTwenty = belowTwenty.join('').length
 
   let sum = sumOfLettersUnderTwenty
+
   for (let i = 20; i <= 99; i++) {
     const onesPlace = belowTwenty[i % 10]
-    const tensPlace = tensAboveTwenty[Math.floor((i / 10) - 2)]
+    const tensPlace = tensAboveTwenty[Math.floor(i / 10 - 2)]
     sum += (tensPlace + onesPlace).length
   }
 
@@ -63,16 +64,19 @@ const getLettersUnderHundred = numHundreds => {
   const numLettersUnderHundred = lettersUnderOneHundred()
 
   let sum = numLettersUnderHundred
-  for(let i = 1; i < numHundreds; i++) {
+
+  for (let i = 1; i < numHundreds; i++) {
     const baseHundred = belowTwenty[i] + 'hundred'
     const hundredsPlace = baseHundred + 'and'
     const hundredsLetters = hundredsPlace.length * 99
 
     sum += baseHundred.length + hundredsLetters + numLettersUnderHundred
   }
+
+  return sum
 }
 
-const sumLettersUnderOneThousand = 'onethousand'.length + getLettersUnderHundred(10)
+const getLettersUnderOneThousand = () =>
+  'onethousand'.length + getLettersUnderHundred(10)
 
-// ✔ Solved: 21124
-console.log(sumLettersUnderOneThousand)
+module.exports = getLettersUnderOneThousand

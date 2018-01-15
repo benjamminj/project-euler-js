@@ -35,11 +35,9 @@ const getSundaysInTwentiethCentury = () => {
     const year = getSundaysOnFirstOfMonth(getMonths(i), displacement)
     displacement = year.displacement
     numSundays += year.numSundays
-    console.log(i, numSundays)
   }
 
   return numSundays
 }
 
-// ✔ Solved: 171
-console.log(getSundaysInTwentiethCentury())
+module.exports = getSundaysInTwentiethCentury

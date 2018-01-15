@@ -22,5 +22,4 @@ const getAmicableNumbersSum = max => {
   return sumAmicable
 }
 
-// ✔ Solved: 31626
-console.log(getAmicableNumbersSum(10000))
+module.exports = getAmicableNumbersSum
