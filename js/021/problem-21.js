@@ -23,3 +23,4 @@ const getAmicableNumbersSum = max => {
 }
 
 module.exports = getAmicableNumbersSum
+module.exports.getProperDivisorsSum = getProperDivisorsSum
