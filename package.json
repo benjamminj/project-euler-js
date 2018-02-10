@@ -4,7 +4,9 @@
   "description": "Project Euler Problems",
   "main": "problem-1.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build-reason": "bsb",
+    "watch-reason": "bsb -w"
   },
   "prettier": {
     "semi": false,
@@ -18,6 +20,7 @@
   "license": "ISC",
   "devDependencies": {},
   "dependencies": {
+    "bs-platform": "^2.1.0",
     "jest": "^22.1.1"
   }
 }
