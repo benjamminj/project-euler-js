@@ -1,92 +1,46 @@
 // https://projecteuler.net/problem=23
+const { getProperDivisorsSum } = require('../021/problem-21')
 
-const getDivisors = num => {
-  let divisors = []
-  let i = 0
+// general util functions (todo -- move into a separate folder / lib?)
+const range = (a, b, mapperFn = (_, i) => a + i) =>
+  Array.from({ length: Math.abs(Math.floor(b - a)) - 1 }, mapperFn)
 
-  while (i <= num / 2) {
-    let rem = num % i
+const isAbundantNumber = num => getProperDivisorsSum(num) > num
 
-    if (rem === 0) divisors.push(i)
+const getAbundantNumsBelow = num => range(1, num).filter(isAbundantNumber)
 
-    i++
-  }
+const isSumOfAbundantNums = (
+  num,
+  abundantNums = getAbundantNumbersBelow(num)
+) =>
+  abundantNums.find(abundantNum => {
+    return abundantNums.includes(num - abundantNum) ? true : false
+  })
+    ? true
+    : false
 
-  return divisors
-}
+const getNonAbundantSumsBelow = num => {
+  // todo -- refactor to not need mutable abundant nums
+  let abundantNumsReverse = getAbundantNumsBelow(num).reverse()
+  const reverseNums = range(1, num).reverse()
 
-const isAbundantNumber = num => {
-  return getDivisors(num).reduce((sum, div) => sum + div, 0) > num
-}
+  return reverseNums.filter(i => {
+    const biggerIndex = abundantNumsReverse.findIndex(
+      abundantNum => i >= abundantNum
+    )
 
-const getAbundantNumbersBelow = limit => {
-  // todo -- faster way of getting list of nums...do I actually even need this step
-  // todo -- refactor to be more functional / cleaner
-  let i = 12 // 12 is the lowest abundant number
-  let abundantNums = []
-
-  do {
-    if (isAbundantNumber(i)) {
-      abundantNums.push(i)
+    if (biggerIndex > -1) {
+      abundantNumsReverse = abundantNumsReverse.slice(biggerIndex)
     }
 
-    i++
-  } while (i <= limit)
-
-  return abundantNums
+    return !isSumOfAbundantNums(i, abundantNumsReverse)
+  })
 }
 
-const isSumOfAbundantNumbers = (num, abundantNums) => {
-  let i = 0
-
-  while (i < abundantNums.length / 2) {
-    const otherAddend = num - abundantNums[i]
-
-
-    if (abundantNums.includes(otherAddend)) {
-      return true
-    }
-
-    i++
-  }
-
-  return false
-}
-
-const findHighestNonAbundantSumBelow = (num, abundantNums) => {
-  let i = num
-
-  while (i > 0) {
-    if (!isSumOfAbundantNumbers(i, abundantNums)) {
-      return i
-    }
-
-    i--
-  }
-}
-
-const getSumOfNonAbundantSumsBelow = (limit) => {
-  const abundantNums = getAbundantNumbersBelow(limit)
-
-  // todo -- something wrong with this function...once get working will optimize slightly
-  // const highestNonAbundantSum = findHighestNonAbundantSumBelow(limit, abundantNums)
-
-  let i = 0
-  let sum = 0
-
-  while (i < limit) {
-    if (!isSumOfAbundantNumbers(i, abundantNums)) { sum += i }
-
-    i++
-  }
-
-  return sum
+const getSumOfNonAbundantSumsBelow = num => {
+  return getNonAbundantSumsBelow(num).reduce((sum, el) => sum + el, 0)
 }
 
 module.exports = {
-  getAbundantNumbersBelow,
-  isSumOfAbundantNumbers,
-  findHighestNonAbundantSumBelow,
   getSumOfNonAbundantSumsBelow
 }
-// console.log(isAbundantNumber(28144))
