@@ -1,9 +1,8 @@
 // https://projecteuler.net/problem=23
+const { range, filterReduce } = require('../utils')
 const { getProperDivisorsSum } = require('../021/problem-21')
 
 // general util functions (todo -- move into a separate folder / lib?)
-const range = (a, b, mapperFn = (_, i) => a + i) =>
-  Array.from({ length: Math.abs(Math.floor(b - a)) - 1 }, mapperFn)
 
 const isAbundantNumber = num => getProperDivisorsSum(num) > num
 
@@ -35,6 +34,23 @@ const getNonAbundantSumsBelow = num => {
 
     return !isSumOfAbundantNums(i, abundantNumsReverse)
   })
+}
+
+createNonAbundantSumsBelowFilter = (num) => {
+  let abundantNumsReverse = getAbundantNumsBelow(num).reverse()
+  // const reverseNums = range(1, num).reverse()
+
+  return i => {
+    const biggerIndex = abundantNumsReverse.findIndex(
+      abundantNum => i >= abundantNum
+    )
+
+    if (biggerIndex > -1) {
+      abundantNumsReverse = abundantNumsReverse.slice(biggerIndex)
+    }
+
+    return !isSumOfAbundantNums(i, abundantNumsReverse)
+  }
 }
 
 const getSumOfNonAbundantSumsBelow = num => {
