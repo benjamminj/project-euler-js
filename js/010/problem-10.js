@@ -36,7 +36,6 @@ const isPrimeRec = (num, divisor = 5) => {
   if (num % divisor === 0) return false
   if (num % (divisor + 2) === 0) return false
   if (num % (divisor + 4) === 0) return false
-  // todo -- figure out case where we can loop through potential Divisors
 
   return divisor <= Math.sqrt(num)
     ? () => isPrimeRec(num, divisor + 6)
