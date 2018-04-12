@@ -6,22 +6,33 @@
 // 012   021   102   120   201   210
 
 // What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?\
+const { range } = require('../utils')
 
-// todo -- move to a utils lib
-const range = (a, b) =>
-  Array.from({ length: Math.floor(b - a) - 1 }, (_, i) => a + i)
+const factorial = n => range(1,n).reduce((product, i) => product * (i + 1), 1)
 
-const factorial = n => range(1,n).reduce((product, i) => product * i, 1)
+// returns the number of permutations possible for a set of digits
+const findNumOfPerms = numDigits => factorial(numDigits - 1)
+module.exports.findNumOfPerms = findNumOfPerms
 
-const findNumOfPerms = numDigits
+const findNumOfPermsPerDigit = numDigits => findNumOfPerms(numDigits - 1)
+module.exports.findNumOfPermsPerDigit = findNumOfPermsPerDigit
 
 const findNthLexicographicPerm = ({
   n,
-  digits,
+  numberOfDigits,
+  numOfPermsPerDigit,
+  currentDigit,
   num = [],
   permsCalculated = 0
 }) => {
+  // if permsCalculated < n && numOfPermsPerDigit + permsCalculated < n
+  // --> bump the permsCalculated up by the number of perms per digit
+  // --> return recusively at the same currentDigit, we haven't found the right permutation yet
+  
 
+  // if permsCalculate < n && numOfPermsPerDigit + permsCalculated > n
+  // --> add the currentDigit to the number array, this is the right permutation
+  // -->  return recursively with 
 }
 
 
