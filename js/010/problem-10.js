@@ -22,6 +22,7 @@ const getPrimesBelowRec = (limit, i = 9, primes = [2, 3, 5, 7]) => {
     ? () => getPrimesBelowRec(limit, i + 2, [...primes, i])
     : () => getPrimesBelowRec(limit, i + 2, primes)
 }
+
 const getPrimesBelow = trampoline(getPrimesBelowRec)
 
 const isPrimeRec = (num, divisor = 5) => {
@@ -29,6 +30,7 @@ const isPrimeRec = (num, divisor = 5) => {
     return true
   }
 
+  // Run multiple checks per loop to shorten then number of cycles
   if (num % 2 === 0) return false
   if (num % 3 === 0) return false
   if (num % 5 === 0) return false
