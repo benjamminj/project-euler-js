@@ -8,18 +8,10 @@
  * exceed four million, find the sum of the even-valued terms
  */
 
-const fibEven = (num1 = 1, num2 = 2, sum = 0) => {
-  if (num2 >= 4000000) {
-    return sum
-  }
+const fibEven = (limit, first = 1, second = 1, sum = 0) => {
+  const nextSum = second % 2 === 0 ? sum + second : sum
 
-  const nextNum = num1 + num2
-
-  if (num2 % 2 === 0) {
-    return fibEven(num2, nextNum, (sum + num2))
-  }
-
-  return fibEven(num2, nextNum, sum)
+  return second >= limit ? sum : fibEven(limit, second, second + first, nextSum);
 }
 
 module.exports = fibEven

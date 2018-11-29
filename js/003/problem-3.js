@@ -4,22 +4,19 @@
  * What is the largest prime factor of the number 600851475143?
  */
 
-const largestPrimeFactor = (num) => {
-  const factors = []
-  let divisor = 2
+const getLargestPrimeFactor = (num, divisor = 2, largestFactor = num) => {
+  const isDivisible = num % divisor === 0
+  const nextNum = isDivisible ? num / divisor : num
+  const nextDiv = isDivisible
+    ? divisor
+    : divisor === 2
+      ? divisor + 1
+      : divisor + 2
+  const nextLargestFactor = isDivisible ? divisor : largestFactor
 
-  while (num > 2) {
-    if (num % divisor === 0) {
-      factors.push(divisor)
-      num /= divisor
-    } else if (divisor === 2) {
-      divisor ++
-    } else {
-      divisor += 2
-    }
-  }
-
-  return factors[factors.length - 1]
+  return num < 2
+    ? largestFactor
+    : getLargestPrimeFactor(nextNum, nextDiv, nextLargestFactor)
 }
 
-module.exports = largestPrimeFactor
+module.exports = getLargestPrimeFactor
