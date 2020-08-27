@@ -5,6 +5,7 @@
   "main": "problem-1.js",
   "scripts": {
     "test": "jest",
+    "test:watch": "jest --watch",
     "build-reason": "bsb",
     "watch-reason": "bsb -w"
   },

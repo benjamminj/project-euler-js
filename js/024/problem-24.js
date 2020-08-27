@@ -6,76 +6,75 @@
 // 012   021   102   120   201   210
 
 // What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4, 5, 6, 7, 8 and 9?\
-const { range } = require('../utils')
 
-const factorial = n => range(1,n).reduce((product, i) => product * (i + 1), 1)
+function factorial(number, product = 1) {
+  if (number <= 1) return product
 
-// returns the number of permutations possible for a set of digits
-const findNumOfPerms = numDigits => factorial(numDigits - 1)
-module.exports.findNumOfPerms = findNumOfPerms
-
-const findNumOfPermsPerDigit = numDigits => findNumOfPerms(numDigits - 1)
-module.exports.findNumOfPermsPerDigit = findNumOfPermsPerDigit
-
-const findNthLexicographicPerm = ({
-  n,
-  numberOfDigits,
-  numOfPermsPerDigit,
-  currentDigit,
-  num = [],
-  permsCalculated = 0
-}) => {
-  // if permsCalculated < n && numOfPermsPerDigit + permsCalculated < n
-  // --> bump the permsCalculated up by the number of perms per digit
-  // --> return recusively at the same currentDigit, we haven't found the right permutation yet
-  
-
-  // if permsCalculate < n && numOfPermsPerDigit + permsCalculated > n
-  // --> add the currentDigit to the number array, this is the right permutation
-  // -->  return recursively with 
+  return factorial(number - 1, number * product)
 }
 
+// Step 1.
+// find out how many permutations per digit there are. Since lexicographic order will
+// largely be dependent on the number of digits, we might be able to save a lot of time
+// by skipping to the DIGIT where the millionth permutation happens.
 
-// 01
-// 10
+/**
+ * @param {number} numberOfDigits
+ */
+function getNumberOfPermutationsPerDigit(numberOfDigits) {
+  return factorial(numberOfDigits - 1)
+}
 
-// 012
-// 021
-// 102
-// 120
-// 201
-// 210
+module.exports.getNumberOfPermutationsPerDigit = getNumberOfPermutationsPerDigit
 
-// 4 digits
-// 0 123
-// 0 132
-// 0 213
-// 0 231
-// 0 312
-// 0 321
+// Step 1.5 Find WHICH digit has the millionth factorial
+function findNthPermutationDigit(n, numberOfDigits) {
+  let numberOfPermutationsPerDigit = getNumberOfPermutationsPerDigit(
+    numberOfDigits
+  )
 
-// 1 023
-// 1 032
-// 1 203
-// 1 230
-// 1 302
-// 1 320
+  let digit = Math.ceil(n / numberOfPermutationsPerDigit)
 
-// 2 013
-// 2 031
-// 2 103
-// 2 130
-// 2 301
-// 2 310
+  return digit
+}
 
-// 3 012
-// 3 021
-// 3 102
-// 3 120
-// 3 201
-// 3 210
+module.exports.findNthPermutationDigit = findNthPermutationDigit
 
-// perm -- returns the number of possible permutations given the amount of digits
-// implementation --> factorial of the number of digits - 1
-// perm(4) = 6 (6 possible digits for each group of permutations.)
-// use to narrow down WHERE the millionth digit is in order...if you only have 2000 digits you can skip all the 0s, 1s, etc.
+// Step 2.
+// List all available permutations for the given digit.
+// Perhaps insert into a Set to make the lookup faster?
+
+// Step 3.
+// Look up the darn digit!
+
+/**
+ * @param {number} n
+ * @param {number[]} digits
+ */
+function findNthLexicographicPermutation(n, digits) {
+  // Makes a map of the digits to make looking up digits a little faster
+  let digitsClone = [...digits]
+  let permutation = []
+  let numberLeftToGo = n
+
+  while (numberLeftToGo > 0) {
+    let permutationsPerDigit = getNumberOfPermutationsPerDigit(
+      digitsClone.length
+    )
+
+    // TODO: fix here?
+    let digitIndexContainingNthPermutation =
+      findNthPermutationDigit(numberLeftToGo, digits.length) - 1
+
+    const nextDigit = digitsClone[digitIndexContainingNthPermutation]
+
+    console.log(digitIndexContainingNthPermutation, n)
+    permutation.push(nextDigit)
+    digitsClone.splice(digitIndexContainingNthPermutation, 1)
+    numberLeftToGo = numberLeftToGo - permutationsPerDigit
+  }
+
+  return parseInt(permutation.join(''))
+}
+
+module.exports.findNthLexicographicPermutation = findNthLexicographicPermutation
