@@ -22,6 +22,6 @@
   "devDependencies": {},
   "dependencies": {
     "bs-platform": "^3.1.5",
-    "jest": "^22.1.1"
+    "jest": "^29.3.1"
   }
 }
